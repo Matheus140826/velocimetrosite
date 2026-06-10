@@ -17,13 +17,12 @@ $result = $conn->query($sql);
 
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
-   
+    
     echo json_encode([
         "velocidade" => floatval($row["velocidade"]),
-        "rpm" => intval($row["rpm"])
+        "rpm" => floatval($row["rpm"]) 
     ]);
 } else {
-   
     echo json_encode([
         "velocidade" => 0,
         "rpm" => 0
