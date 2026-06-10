@@ -1,0 +1,8 @@
+create database trabalho;
+use trabalho;
+
+CREATE TABLE telemetria (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    velocidade FLOAT NOT NULL,
+    rpm FLOAT NOT NULL
+);

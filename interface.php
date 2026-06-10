@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Monitor ESP32</title>
+   <!-- Google Fonts -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+   <style>
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+       body {
+           min-height: 100vh;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           background: radial-gradient(
+               circle at top,
+               #1b2735 0%,
+               #0f1720 35%,
+               #0A0A0A 100%
+           );
+           font-family: 'Inter', sans-serif;
+           color: white;
+       }
+       .painel {
+           width: 520px;
+           padding: 40px;
+           border-radius: 30px;
+           background: rgba(255,255,255,0.05);
+           border: 1px solid rgba(255,255,255,0.08);
+           backdrop-filter: blur(15px);
+           box-shadow:
+               0 0 30px rgba(0,212,255,0.15),
+               0 0 80px rgba(0,0,0,0.5);
+           text-align: center;
+       }
+       h1 {
+           font-size: 20px;
+           font-weight: 600;
+           color: #E5E5E5;
+           text-transform: uppercase;
+           letter-spacing: 4px;
+           margin-bottom: 35px;
+       }
+       .velocidade {
+           font-family: 'Orbitron', sans-serif;
+           font-size: 120px;
+           font-weight: 900;
+           color: #FFFFFF;
+           line-height: 1;
+           text-shadow:
+               0 0 20px rgba(255,255,255,0.25),
+               0 0 40px rgba(255,255,255,0.15);
+       }
+       .kmh {
+           margin-top: 10px;
+           color: #A0AEC0;
+           font-size: 18px;
+           letter-spacing: 4px;
+       }
+       .linha {
+           height: 1px;
+           margin: 35px 0;
+           background: linear-gradient(
+               to right,
+               transparent,
+               rgba(0,212,255,0.5),
+               transparent
+           );
+       }
+       .rpm-box {
+           padding: 20px;
+           border-radius: 18px;
+           background: rgba(0,212,255,0.08);
+           border: 1px solid rgba(0,212,255,0.20);
+       }
+       .rpm-label {
+           font-size: 14px;
+           color: #9CA3AF;
+           letter-spacing: 3px;
+           margin-bottom: 10px;
+       }
+       .rpm {
+           font-family: 'Orbitron', sans-serif;
+           font-size: 55px;
+           font-weight: 700;
+           color: #00D4FF;
+           text-shadow:
+               0 0 15px rgba(0,212,255,0.4);
+       }
+   </style>
+</head>
+<body>
+   <div class="painel">
+       <h1>Monitor ESP32</h1>
+       <div class="velocidade">
+           <span id="velocidade">0</span>
+       </div>
+       <div class="kmh">KM/H</div>
+       <div class="linha"></div>
+       <div class="rpm-box">
+           <div class="rpm-label">RPM</div>
+           <div class="rpm">
+               <span id="rpm">0</span>
+           </div>
+       </div>
+   </div>
+   <script>
+       function atualizarDados() {
+           fetch('buscar_dados.php')
+               .then(response => response.json())
+               .then(data => {
+                   document.getElementById('velocidade').innerText = data.velocidade;
+                   document.getElementById('rpm').innerText = data.rpm;
+               })
+               .catch(error => console.log("Erro ao buscar dados:", error));
+       }
+       atualizarDados();
+       setInterval(atualizarDados, 1000);
+   </script>
+</body>
+</html>
+
